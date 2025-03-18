@@ -145,3 +145,30 @@ testRule({
 	accept,
 	reject,
 });
+
+/* Test enabled: { resolver: { alias } }
+/* ========================================================================== */
+
+accept = [
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@import \'@test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+];
+reject = [
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-re); }', message: messages.unexpected('--brand-re', 'color') },
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-redz); }', message: messages.unexpected('--brand-redz', 'color') },
+];
+
+testRule({
+	plugins: ['.'],
+	ruleName: rule.ruleName,
+	config: [true, {
+		resolver: {
+			alias: {
+				'@': './test',
+				'@test': './test',
+			},
+		},
+	}],
+	accept,
+	reject,
+});

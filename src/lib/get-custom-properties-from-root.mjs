@@ -18,22 +18,8 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// recursively add custom properties from @import statements
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
-		const fileName = parseImportParams(atRule.params);
-		if (!fileName) {
-			return;
-		}
-
-		if (path.isAbsolute(fileName)) {
-			importPromises.push(getCustomPropertiesFromCSSFile(fileName, resolver));
-		} else {
-			const promise = resolveId(fileName, sourceDir, {
-				paths: resolver.paths,
-				extensions: resolver.extensions,
-				moduleDirectories: resolver.moduleDirectories,
-			})
-				.then((filePath) => getCustomPropertiesFromCSSFile(filePath, resolver))
-				.catch(() => {});
-
+		const promise = getImportPromise(atRule, resolver, sourceDir);
+		if (promise) {
 			importPromises.push(promise);
 		}
 	});
@@ -106,4 +92,45 @@ function parseImportParams(params) {
 	}
 
 	return false;
+}
+
+function getFileNameFromAlias(fileName, resolver) {
+	if (!resolver.alias) {
+		return fileName;
+	}
+
+	const split = fileName.split('/');
+
+	if (split.length > 0) {
+		const resolvedAlias = Object.entries(resolver.alias).find(([key]) => key === split[0]);
+
+		if (resolvedAlias) {
+			const [alias, value] = resolvedAlias;
+			return fileName.replace(alias, value);
+		}
+	}
+	return fileName;
+}
+
+function getImportPromise(atRule, resolver, sourceDir) {
+	const fileName = parseImportParams(atRule.params);
+	if (!fileName) {
+		return;
+	}
+
+	const aliasedFileName = getFileNameFromAlias(fileName, resolver);
+
+	if (path.isAbsolute(fileName)) {
+		return getCustomPropertiesFromCSSFile(aliasedFileName, resolver);
+	} else {
+		const promise = resolveId(aliasedFileName, sourceDir, {
+			paths: resolver.paths,
+			extensions: resolver.extensions,
+			moduleDirectories: resolver.moduleDirectories,
+		})
+			.then((filePath) => getCustomPropertiesFromCSSFile(filePath, resolver))
+			.catch(() => {});
+
+		return promise;
+	}
 }
