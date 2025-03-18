@@ -24,6 +24,13 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 		}
 	});
 
+	root.walkAtRules('use', atRule => {
+		const promise = getImportPromise(atRule, resolver, sourceDir);
+		if (promise) {
+			importPromises.push(promise);
+		}
+	});
+
 	(await Promise.all(importPromises)).forEach(propertiesFromImport => {
 		customProperties = Object.assign(customProperties, propertiesFromImport);
 	});
