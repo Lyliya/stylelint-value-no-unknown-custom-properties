@@ -1,12 +1,12 @@
-import stylelint from 'stylelint';
-import getCustomPropertiesFromRoot from './lib/get-custom-properties-from-root.mjs';
-import getCustomPropertiesFromImports from './lib/get-custom-properties-from-imports.mjs';
-import validateResult from './lib/validate-result.mjs';
-import messages from './lib/messages.mjs';
-import ruleName from './lib/rule-name.mjs';
+import stylelint from "stylelint";
+import getCustomPropertiesFromRoot from "./lib/get-custom-properties-from-root.mjs";
+import getCustomPropertiesFromImports from "./lib/get-custom-properties-from-imports.mjs";
+import validateResult from "./lib/validate-result.mjs";
+import messages from "./lib/messages.mjs";
+import ruleName from "./lib/rule-name.mjs";
 
 const meta = {
-	url: 'https://github.com/csstools/stylelint-value-no-unknown-custom-properties/blob/main/README.md',
+	url: "https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties/blob/main/README.md",
 };
 
 const ruleFunction = (method, opts) => {
@@ -32,7 +32,7 @@ const ruleFunction = (method, opts) => {
 			// all custom properties from the file and imports
 			const customProperties = Object.assign(
 				await customPropertiesPromise,
-				await getCustomPropertiesFromRoot(root, resolver),
+				await getCustomPropertiesFromRoot(root, resolver)
 			);
 
 			// validate the css root
@@ -47,5 +47,5 @@ ruleFunction.meta = meta;
 
 export default stylelint.createPlugin(ruleName, ruleFunction);
 
-const isMethodEnabled = method => method === true;
-const isMethodDisabled = method => method === null || method === false;
+const isMethodEnabled = (method) => method === true;
+const isMethodDisabled = (method) => method === null || method === false;

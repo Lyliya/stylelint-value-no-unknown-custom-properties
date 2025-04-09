@@ -23,7 +23,7 @@ Add [Stylelint Value No Unknown Custom Properties] to your [stylelint configurat
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
-    "csstools/value-no-unknown-custom-properties": true || null
+    "lyliya/value-no-unknown-custom-properties": true || null
   }
 }
 ```
@@ -104,7 +104,7 @@ paths to the plugin.
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
-    "csstools/value-no-unknown-custom-properties": [true, {
+    "lyliya/value-no-unknown-custom-properties": [true, {
       "importFrom": [
         "path/to/file.css", // => :root { --brand-blue: #33f; }
         "path/to/file.json" // => { "custom-properties": { "--brand-blue": "#33f" } }
@@ -116,7 +116,7 @@ paths to the plugin.
 
 ### resolver
 
-Use this option to configure how the rule solve paths of `@import` rules.
+Use this option to configure how the rule solve paths of `@import` and `@use` rules.
 
 ```js
 // .stylelintrc
@@ -125,11 +125,14 @@ Use this option to configure how the rule solve paths of `@import` rules.
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
-    "csstools/value-no-unknown-custom-properties": [true, {
+    "lyliya/value-no-unknown-custom-properties": [true, {
       "resolver": {
         "extensions": [".css"], // => default to [".css"]
         "paths": ["./assets/css", "./static/css"], // => paths to look for files, default to []
         "moduleDirectories": ["node_modules"] // => modules folder to look for files, default to ["node_modules"]
+        "alias": {
+          "@": resolve(import.meta.dirname, 'src'),
+        },
       }
     }]
   }
@@ -138,11 +141,10 @@ Use this option to configure how the rule solve paths of `@import` rules.
 
 [discord]: https://discord.gg/bUadyRwkJS
 [discord-badge]: https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white
-[test-badge]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml/badge.svg
-[test-url]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml
+[test-badge]: https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml/badge.svg
+[test-url]: https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml
 [npm-img]: https://img.shields.io/npm/v/stylelint-value-no-unknown-custom-properties.svg
 [npm-url]: https://www.npmjs.com/package/stylelint-value-no-unknown-custom-properties
-
 [stylelint]: https://github.com/stylelint/stylelint
 [stylelint configuration]: https://stylelint.io/user-guide/configure/
-[Stylelint Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
+[Stylelint Value No Unknown Custom Properties]: https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties

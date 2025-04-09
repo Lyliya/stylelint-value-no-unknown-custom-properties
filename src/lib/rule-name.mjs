@@ -1,1 +1,1 @@
-export default 'csstools/value-no-unknown-custom-properties';
+export default "lyliya/value-no-unknown-custom-properties";
