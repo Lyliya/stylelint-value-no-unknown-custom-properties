@@ -1,6 +1,6 @@
 {
   "name": "@lyliya/stylelint-value-no-unknown-custom-properties",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Guillaume Guerin <guerin.dev@gmail.com>",
   "license": "CC0-1.0",
