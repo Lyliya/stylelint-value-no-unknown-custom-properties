@@ -1,12 +1,12 @@
 {
-  "name": "stylelint-value-no-unknown-custom-properties",
+  "name": "@lyliya/stylelint-value-no-unknown-custom-properties",
   "version": "6.1.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
-  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "author": "Guillaume Guerin <guerin.dev@gmail.com>",
   "license": "CC0-1.0",
-  "repository": "csstools/stylelint-value-no-unknown-custom-properties",
-  "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
-  "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
+  "repository": "Lyliya/stylelint-value-no-unknown-custom-properties",
+  "homepage": "https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties",
+  "bugs": "https://github.com/Lyliya/stylelint-value-no-unknown-custom-properties/issues",
   "type": "module",
   "main": "src/index.mjs",
   "files": [
