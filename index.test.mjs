@@ -44,10 +44,22 @@ accept = [
 	{ code: '@import url("./test/import-custom-properties.css" url-mod); body { color: var(--brand-red); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; @import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }' },
 	{ code: 'color: var(--my-undefined-color, #ffffff);' },
+	{ code: '@use \'./test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@use "./test/import-custom-properties.css" screen; body { color: var(--brand-red); }' },
+	{ code: '@use "./test/import-custom-properties.css"/**/; body { color: var(--brand-red); }' },
+	{ code: '@use url(./test/import-custom-properties.css); body { color: var(--brand-red); }' },
+	{ code: '@use url(\'./test/import-custom-properties.css\'); body { color: var(--brand-red); }' },
+	{ code: '@use url( \'./test/import-custom-properties.css\'/**/)/**/; body { color: var(--brand-red); }' },
+	{ code: '@use url(\t\'./test/import-custom-properties.css\'\t)\t; body { color: var(--brand-red); }' },
+	{ code: '@use url(./test/import-custom-properties.css) screen; body { color: var(--brand-red); }' },
+	{ code: '@use url("./test/import-custom-properties.css") screen; body { color: var(--brand-red); }' },
+	{ code: '@use url("./test/import-custom-properties.css" url-mod); body { color: var(--brand-red); }' },
+	{ code: '@use \'./test/import-custom-properties.css\'; @import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }' },
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blue); }', message: messages.unexpected('--brand-blue', 'color') },
 	{ code: '@import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }', message: messages.unexpected('--brand-red', 'color') },
+	{ code: '@use \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }', message: messages.unexpected('--brand-red', 'color') },
 ];
 
 testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
@@ -140,6 +152,37 @@ testRule({
 	config: [true, {
 		resolver: {
 			paths: './test',
+		},
+	}],
+	accept,
+	reject,
+});
+
+/* Test enabled: { resolver: { alias } }
+/* ========================================================================== */
+
+accept = [
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@import \'@test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@use \'@/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@use \'@test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+];
+reject = [
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-re); }', message: messages.unexpected('--brand-re', 'color') },
+	{ code: '@import \'@/import-custom-properties.css\'; body { color: var(--brand-redz); }', message: messages.unexpected('--brand-redz', 'color') },
+	{ code: '@use \'@/import-custom-properties.css\'; body { color: var(--brand-re); }', message: messages.unexpected('--brand-re', 'color') },
+	{ code: '@use \'@/import-custom-properties.css\'; body { color: var(--brand-redz); }', message: messages.unexpected('--brand-redz', 'color') },
+];
+
+testRule({
+	plugins: ['.'],
+	ruleName: rule.ruleName,
+	config: [true, {
+		resolver: {
+			alias: {
+				'@': './test',
+				'@test': './test',
+			},
 		},
 	}],
 	accept,
